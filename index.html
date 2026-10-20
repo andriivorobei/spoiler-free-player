@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Обзор</title><meta name="referrer" content="strict-origin-when-cross-origin">
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>html,body{margin:0;height:100%;background:#000;color:#fff;font-family:system-ui,sans-serif;overflow:hidden}
+#start{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+#label{font-size:26px;font-weight:600;text-align:center;padding:0 20px}
+#play{width:110px;height:110px;border-radius:50%;border:0;background:#e50914;color:#fff;font-size:44px;cursor:pointer}
+#wrap{position:fixed;inset:0;display:none;background:#000}#wrap iframe{width:100%;height:100%;border:0}
+#bar{position:absolute;top:0;left:0;right:0;height:60px;background:#000;z-index:2}</style></head><body>
+<div id="start"><div id="label"></div><button id="play" aria-label="Play">▶</button></div>
+<div id="wrap"><div id="bar"></div></div>
+<script>
+var tg=window.Telegram&&Telegram.WebApp;if(tg){tg.ready();tg.expand();try{tg.requestFullscreen&&tg.requestFullscreen()}catch(e){}}
+var p=new URLSearchParams(location.search),v=(p.get('v')||'').replace(/[^A-Za-z0-9_-]/g,'').slice(0,11);
+// never show digits (scores) from label
+var t=(p.get('t')||'Обзор').replace(/\d+\s*[-–:]\s*\d+/g,'–').replace(/\d/g,'');
+document.getElementById('label').textContent=t;document.title=t;
+document.getElementById('play').onclick=function(){if(!v)return;
+var w=document.getElementById('wrap'),f=document.createElement('iframe');
+f.src='https://www.youtube-nocookie.com/embed/'+v+'?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3&fs=1';
+f.allow='autoplay; encrypted-media; fullscreen; picture-in-picture';f.allowFullscreen=true;
+w.appendChild(f);w.style.display='block';document.getElementById('start').style.display='none';
+try{(w.requestFullscreen||w.webkitRequestFullscreen).call(w)}catch(e){}};
+</script></body></html>
